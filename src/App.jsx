@@ -41,7 +41,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map((person) => (
-          <Person key={Date.now() + person.name} person={person} />
+          <Person key={person.name} person={person} />
         ))}
       </ul>
     </div>
