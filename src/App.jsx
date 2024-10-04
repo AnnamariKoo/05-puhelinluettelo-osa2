@@ -1,12 +1,30 @@
 import { useState } from "react";
 
+const Person = ({ person }) => {
+  return <li>{person.name}</li>;
+};
+
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
+    const personObject = {
+      name: newName,
+      id: String(persons.length + 1),
+    };
     console.log("button clicked", event.target);
+
+    setPersons(persons.concat(personObject));
+    setNewName("");
+    console.log("person name", {
+      persons,
+    });
+  };
+
+  const handleNameChange = (event) => {
+    setNewName(event.target.value);
   };
 
   return (
@@ -14,14 +32,18 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input />
+          name: <input value={newName} onChange={handleNameChange} />
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      <div>debug: {newName}</div>
+      <ul>
+        {persons.map((person) => (
+          <Person key={Date.now() + person.name} person={person} />
+        ))}
+      </ul>
     </div>
   );
 };
