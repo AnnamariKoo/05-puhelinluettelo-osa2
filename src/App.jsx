@@ -12,8 +12,14 @@ const App = () => {
     event.preventDefault();
     const personObject = {
       name: newName,
-      id: String(persons.length + 1),
     };
+    const sameName = (person) => person.name === newName;
+    console.log(persons.findIndex(sameName));
+    if (persons.findIndex(sameName) !== -1) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    }
+
     console.log("button clicked", event.target);
 
     setPersons(persons.concat(personObject));
