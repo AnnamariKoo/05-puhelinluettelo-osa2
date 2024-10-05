@@ -1,5 +1,19 @@
 import { useState } from "react";
 
+const Persons = (props) => {
+  return (
+    <ul>
+      {props.persons
+        .filter((person) =>
+          person.name.toLowerCase().includes(props.searchTerm.toLowerCase())
+        )
+        .map((person) => (
+          <Person key={person.name} person={person} />
+        ))}
+    </ul>
+  );
+};
+
 const Person = ({ person }) => {
   return (
     <li>
@@ -32,14 +46,9 @@ const App = () => {
       return;
     }
 
-    console.log("button clicked", event.target);
-
     setPersons(persons.concat(personObject));
     setNewName("");
     setNewNumber("");
-    console.log("person name", {
-      persons,
-    });
   };
 
   const handleSearchChange = (event) => {
@@ -58,7 +67,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form>
-        filter shown with:{" "}
+        filter shown with:
         <input value={searchTerm} onChange={handleSearchChange} />
       </form>
       <h2>Add a new</h2>
@@ -74,15 +83,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
-        {persons
-          .filter((person) =>
-            person.name.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .map((person) => (
-            <Person key={person.name} person={person} />
-          ))}
-      </ul>
+      <Persons persons={persons} searchTerm={searchTerm} />
     </div>
   );
 };
