@@ -1,5 +1,14 @@
 import { useState } from "react";
 
+const Filter = (props) => {
+  return (
+    <form>
+      filter shown with:
+      <input value={props.searchTerm} onChange={props.handleSearchChange} />
+    </form>
+  );
+};
+
 const Persons = (props) => {
   return (
     <ul>
@@ -66,11 +75,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        filter shown with:
-        <input value={searchTerm} onChange={handleSearchChange} />
-      </form>
-      <h2>Add a new</h2>
+      <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+      <h3>Add a new</h3>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
@@ -82,7 +88,7 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
       <Persons persons={persons} searchTerm={searchTerm} />
     </div>
   );
