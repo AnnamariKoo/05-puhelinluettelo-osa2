@@ -1,35 +1,55 @@
 import { useState } from "react";
+import Persons from "./components/Persons/Persons";
+import Filter from "./components/Filter/Filter";
+import PersonForm from "./components/PersonForm/PersonForm";
 
-const Filter = (props) => {
-  return (
-    <form>
-      filter shown with:
-      <input value={props.searchTerm} onChange={props.handleSearchChange} />
-    </form>
-  );
-};
+// const PersonForm = (props) => {
+//   return (
+//     <form onSubmit={props.addPerson}>
+//       <div>
+//         name: <input value={props.newName} onChange={props.handleNameChange} />
+//       </div>
+//       <div>
+//         number:
+//         <input value={props.newNumber} onChange={props.handleNumberChange} />
+//       </div>
+//       <div>
+//         <button type="submit">add</button>
+//       </div>
+//     </form>
+//   );
+// };
 
-const Persons = (props) => {
-  return (
-    <ul>
-      {props.persons
-        .filter((person) =>
-          person.name.toLowerCase().includes(props.searchTerm.toLowerCase())
-        )
-        .map((person) => (
-          <Person key={person.name} person={person} />
-        ))}
-    </ul>
-  );
-};
+// const Filter = (props) => {
+//   return (
+//     <form>
+//       filter shown with:
+//       <input value={props.searchTerm} onChange={props.handleSearchChange} />
+//     </form>
+//   );
+// };
 
-const Person = ({ person }) => {
-  return (
-    <li>
-      {person.name} {person.number}
-    </li>
-  );
-};
+// const Persons = (props) => {
+//   return (
+//     <ul>
+//       {props.persons
+//         .filter((person) =>
+//           person.name.toLowerCase().includes(props.searchTerm.toLowerCase())
+//         )
+//         .map((person) => (
+//           <Person key={person.name} person={person} />
+//         ))}
+//     </ul>
+//   );
+// };
+
+// const Person = ({ person }) => {
+//   return (
+//     <li>
+//       {person.name} {person.number}
+//     </li>
+//   );
+// };
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -77,17 +97,13 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <h3>Add a new</h3>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
       <h3>Numbers</h3>
       <Persons persons={persons} searchTerm={searchTerm} />
     </div>
