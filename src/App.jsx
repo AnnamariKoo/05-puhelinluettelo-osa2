@@ -1,66 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Persons from "./components/Persons/Persons";
 import Filter from "./components/Filter/Filter";
 import PersonForm from "./components/PersonForm/PersonForm";
 
-// const PersonForm = (props) => {
-//   return (
-//     <form onSubmit={props.addPerson}>
-//       <div>
-//         name: <input value={props.newName} onChange={props.handleNameChange} />
-//       </div>
-//       <div>
-//         number:
-//         <input value={props.newNumber} onChange={props.handleNumberChange} />
-//       </div>
-//       <div>
-//         <button type="submit">add</button>
-//       </div>
-//     </form>
-//   );
-// };
-
-// const Filter = (props) => {
-//   return (
-//     <form>
-//       filter shown with:
-//       <input value={props.searchTerm} onChange={props.handleSearchChange} />
-//     </form>
-//   );
-// };
-
-// const Persons = (props) => {
-//   return (
-//     <ul>
-//       {props.persons
-//         .filter((person) =>
-//           person.name.toLowerCase().includes(props.searchTerm.toLowerCase())
-//         )
-//         .map((person) => (
-//           <Person key={person.name} person={person} />
-//         ))}
-//     </ul>
-//   );
-// };
-
-// const Person = ({ person }) => {
-//   return (
-//     <li>
-//       {person.name} {person.number}
-//     </li>
-//   );
-// };
-
 const App = () => {
-  const [persons, setPersons] = useState([
-      { name: "Arto Hellas", number: "040-123456" },
-      { name: "Ada Lovelace", number: "39-44-5323523" },
-      { name: "Dan Abramov", number: "12-43-234345" },
-      { name: "Mary Poppendieck", number: "39-23-6423122" },
-    ]),
+  const [persons, setPersons] = useState([]),
     [newName, setNewName] = useState(""),
     [newNumber, setNewNumber] = useState(""),
     [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
+  console.log("render", persons.length, "persons");
 
   const addPerson = (event) => {
     event.preventDefault();
