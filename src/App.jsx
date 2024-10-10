@@ -30,7 +30,7 @@ const App = () => {
       return;
     }
 
-    noteService.create(personObject).then((returnedPerson) => {
+    personsService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setNewNumber("");
