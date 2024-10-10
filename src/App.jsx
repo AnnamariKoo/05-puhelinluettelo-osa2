@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import personsService from "./services/persons";
 import Persons from "./components/Persons/Persons";
 import Filter from "./components/Filter/Filter";
 import PersonForm from "./components/PersonForm/PersonForm";
@@ -11,13 +11,10 @@ const App = () => {
     [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
+    personsService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
-  console.log("render", persons.length, "persons");
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -25,20 +22,28 @@ const App = () => {
       name: newName,
       number: newNumber,
     };
+
     const sameName = (person) => person.name === newName;
     console.log(persons.findIndex(sameName));
     if (persons.findIndex(sameName) !== -1) {
       alert(`${newName} is already added to phonebook`);
       return;
     }
-    axios
-      .post("http://localhost:3001/persons", personObject)
-      .then((response) => {
-        console.log(response);
-        setPersons(persons.concat(response.data));
-        setNewName("");
-        setNewNumber("");
-      });
+
+    noteService.create(personObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName("");
+      setNewNumber("");
+    });
+
+    // axios
+    //   .post("http://localhost:3001/persons", personObject)
+    //   .then((response) => {
+    //     console.log(response);
+    //     setPersons(persons.concat(response.data));
+    //     setNewName("");
+    //     setNewNumber("");
+    //   });
   };
 
   const handleSearchChange = (event) => {
