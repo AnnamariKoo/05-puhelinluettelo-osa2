@@ -24,9 +24,10 @@ const App = () => {
     };
 
     const sameName = (person) => person.name === newName;
-    console.log(persons.findIndex(sameName));
     if (persons.findIndex(sameName) !== -1) {
       alert(`${newName} is already added to phonebook`);
+      setNewName("");
+      setNewNumber("");
       return;
     }
 
@@ -35,15 +36,6 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     });
-
-    // axios
-    //   .post("http://localhost:3001/persons", personObject)
-    //   .then((response) => {
-    //     console.log(response);
-    //     setPersons(persons.concat(response.data));
-    //     setNewName("");
-    //     setNewNumber("");
-    //   });
   };
 
   const handleSearchChange = (event) => {
