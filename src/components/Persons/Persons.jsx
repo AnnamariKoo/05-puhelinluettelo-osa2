@@ -4,10 +4,11 @@ const Persons = (props) => {
   // const handleClick = (person) => {
   //   console.log("person", person);
   // };
-  const handleClick = (id) => {
-    // console.log("e:", e);
-    console.log("id:", id);
-  };
+  // const handleClick = (id) => {
+  //   props.deletePerson(id);
+  //   // console.log("e:", e);
+  //   console.log("id:", id);
+  // };
 
   return (
     <ul>
@@ -20,7 +21,7 @@ const Persons = (props) => {
             key={person.name}
             id={person.id}
             person={person}
-            handleClick={handleClick}
+            handleClick={props.deletePerson}
           />
         ))}
     </ul>
