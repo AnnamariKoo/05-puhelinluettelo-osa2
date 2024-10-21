@@ -18,6 +18,17 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+
+    if (newName.length === 0) {
+      alert("You need to write a name!");
+      return;
+    }
+
+    if (newNumber.length === 0) {
+      alert("You need to write a number!");
+      return;
+    }
+
     const personObject = {
       name: newName,
       number: newNumber,
@@ -39,12 +50,12 @@ const App = () => {
   };
 
   const deletePerson = (id) => {
-    // event.preventDefault();
-    console.log("id:", id);
+    if (!window.confirm("Do you want to delete this number?")) {
+      return;
+    }
     const response = personsService.removePerson(id);
     console.log("response:", response);
     const result = persons.filter((person) => person.id !== id);
-    console.log("result:", result);
     setPersons(result);
   };
 
