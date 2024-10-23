@@ -34,14 +34,42 @@ const App = () => {
       number: newNumber,
     };
 
+    // const sameName = (person) => person.name === newName;
+    // if (persons.findIndex(sameName) !== -1) {
+    //   alert(`${newName} is already added to phonebook`);
+    //   setNewName("");
+    //   setNewNumber("");
+    //   return;
+    // }
+
+    /*NUMERON KORVAAMINEN ALKAA */
     const sameName = (person) => person.name === newName;
     if (persons.findIndex(sameName) !== -1) {
-      alert(`${newName} is already added to phonebook`);
-      setNewName("");
-      setNewNumber("");
-      return;
+      const indexOfMatchinPerson = persons.findIndex(sameName);
+      const idOfMatchinPerson = persons[indexOfMatchinPerson].id;
+      const numberOfMatchinPerson = persons[indexOfMatchinPerson].number;
+
+      console.log(persons[indexOfMatchinPerson]);
+      console.log(idOfMatchinPerson);
+      console.log(numberOfMatchinPerson);
+
+      const vastaus = window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      );
+      if (vastaus === true) {
+        console.log("tättärää, nyt tämän numeron voisi vaihtaa");
+        console.log(newName, "and", newNumber);
+        console.log(personObject);
+        personsService.update(idOfMatchinPerson, personObject);
+        return;
+      } else {
+        setNewName("");
+        setNewNumber("");
+        return;
+      }
     }
 
+    /*NUMERON KORVAAMINEN LOPPUU */
     personsService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
