@@ -10,7 +10,7 @@ const App = () => {
     [newName, setNewName] = useState(""),
     [newNumber, setNewNumber] = useState(""),
     [searchTerm, setSearchTerm] = useState(""),
-    [errorMessage, setErrorMessage] = useState();
+    [notificationMessage, setNotificationMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -68,10 +68,14 @@ const App = () => {
     if (!window.confirm("Do you want to delete this number?")) {
       return;
     }
-    const response = personsService.removePerson(id);
-    console.log("response:", response);
-    const result = persons.filter((person) => person.id !== id);
-    setPersons(result);
+    personsService.removePerson(id).then((response) => {
+      setNotificationMessage(`Deleted ${response.name} successfully!`);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
+      const result = persons.filter((person) => person.id !== id);
+      setPersons(result);
+    });
   };
 
   const handleSearchChange = (event) => {
@@ -89,7 +93,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={notificationMessage} />
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <h3>Add a new</h3>
       <PersonForm
