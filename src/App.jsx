@@ -45,7 +45,16 @@ const App = () => {
         `${newName} is already added to phonebook, replace the old number with a new one?`
       );
       if (vastaus === true) {
-        personsService.update(idOfMatchinPerson, personObject);
+        personsService
+          .update(idOfMatchinPerson, personObject)
+          .then((response) => {
+            setNotificationMessage(
+              `Number of ${response.name} updated successfully!`
+            );
+            setTimeout(() => {
+              setNotificationMessage(null);
+            }, 5000);
+          });
         persons[indexOfMatchinPerson].number = newNumber;
         setNewName("");
         setNewNumber("");
@@ -58,6 +67,12 @@ const App = () => {
     }
 
     personsService.create(personObject).then((returnedPerson) => {
+      setNotificationMessage(
+        `Number of ${returnedPerson.name} added successfully!`
+      );
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setNewNumber("");
