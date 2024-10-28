@@ -3,12 +3,14 @@ import personsService from "./services/persons";
 import Persons from "./components/Persons/Persons";
 import Filter from "./components/Filter/Filter";
 import PersonForm from "./components/PersonForm/PersonForm";
+import Notification from "./components/Notification/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]),
     [newName, setNewName] = useState(""),
     [newNumber, setNewNumber] = useState(""),
-    [searchTerm, setSearchTerm] = useState("");
+    [searchTerm, setSearchTerm] = useState(""),
+    [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -87,6 +89,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <h3>Add a new</h3>
       <PersonForm
