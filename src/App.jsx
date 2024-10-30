@@ -4,13 +4,15 @@ import Persons from "./components/Persons/Persons";
 import Filter from "./components/Filter/Filter";
 import PersonForm from "./components/PersonForm/PersonForm";
 import Notification from "./components/Notification/Notification";
+import ErrorMessage from "./components/ErrorMessage/errorMessage";
 
 const App = () => {
   const [persons, setPersons] = useState([]),
     [newName, setNewName] = useState(""),
     [newNumber, setNewNumber] = useState(""),
     [searchTerm, setSearchTerm] = useState(""),
-    [notificationMessage, setNotificationMessage] = useState(null);
+    [notificationMessage, setNotificationMessage] = useState(null),
+    [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -83,14 +85,23 @@ const App = () => {
     if (!window.confirm("Do you want to delete this number?")) {
       return;
     }
-    personsService.removePerson(id).then((response) => {
-      setNotificationMessage(`Deleted ${response.name} successfully!`);
-      setTimeout(() => {
-        setNotificationMessage(null);
-      }, 5000);
-      const result = persons.filter((person) => person.id !== id);
-      setPersons(result);
-    });
+    personsService
+      .removePerson(id)
+      .then((response) => {
+        setNotificationMessage(`Deleted ${response.name} successfully!`);
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
+        const result = persons.filter((person) => person.id !== id);
+        setPersons(result);
+      })
+      .catch((error) => {
+        setErrorMessage(`This person was already removed from server!`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
+        setPersons(persons.filter((person) => person.id !== id));
+      });
   };
 
   const handleSearchChange = (event) => {
@@ -109,6 +120,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={notificationMessage} />
+      <ErrorMessage message={errorMessage} />
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <h3>Add a new</h3>
       <PersonForm

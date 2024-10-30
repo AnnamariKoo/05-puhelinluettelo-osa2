@@ -16,6 +16,16 @@ const update = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
+// const update = (id, newObject) => {
+//   return axios
+//     .put(`${baseUrl}/${id}`, newObject)
+//     .then((response) => response.data)
+//     .catch((error) => {
+//       console.log("Error updating data:", error);
+//       throw error; // re-throw if needed
+//     });
+// };
+
 const removePerson = (id) => {
   const request = axios.delete(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
