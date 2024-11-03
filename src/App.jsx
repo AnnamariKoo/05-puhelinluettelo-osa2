@@ -56,7 +56,17 @@ const App = () => {
             setTimeout(() => {
               setNotificationMessage(null);
             }, 5000);
+          })
+          .catch((error) => {
+            setErrorMessage(
+              `Cannot update ${newName} because it has been removed from server!`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+            setPersons(persons.filter((person) => person.name !== newName));
           });
+
         persons[indexOfMatchinPerson].number = newNumber;
         setNewName("");
         setNewNumber("");
@@ -96,6 +106,9 @@ const App = () => {
         setPersons(result);
       })
       .catch((error) => {
+        console.log("id", id);
+        console.log("persons", persons);
+
         setErrorMessage(`This person was already removed from server!`);
         setTimeout(() => {
           setErrorMessage(null);

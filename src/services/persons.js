@@ -26,6 +26,15 @@ const update = (id, newObject) => {
 //     });
 // };
 
+// const update = (id, newObject) => {
+//   try {
+//     const request = axios.put(`${baseUrl}/${id}`, newObject);
+//     return request.then((response) => response.data);
+//   } catch (error) {
+//     throw new Error(error);
+//    }
+// };
+
 const removePerson = (id) => {
   const request = axios.delete(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
