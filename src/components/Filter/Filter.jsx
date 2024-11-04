@@ -1,6 +1,6 @@
 const Filter = (props) => {
   return (
-    <form>
+    <form className="filterForm">
       filter shown with:
       <input value={props.searchTerm} onChange={props.handleSearchChange} />
     </form>
