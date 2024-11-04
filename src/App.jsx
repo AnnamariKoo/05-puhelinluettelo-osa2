@@ -106,10 +106,9 @@ const App = () => {
         setPersons(result);
       })
       .catch((error) => {
-        console.log("id", id);
-        console.log("persons", persons);
+        const deleted = persons.find((name) => name.id === id);
 
-        setErrorMessage(`This person was already removed from server!`);
+        setErrorMessage(`${deleted.name} was already removed from server!`);
         setTimeout(() => {
           setErrorMessage(null);
         }, 5000);
